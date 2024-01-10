@@ -7,12 +7,13 @@ import (
 	"os"
 	"strings"
 	"time"
+	"math/rand"
 )
 
 func main() {
 	//read values from flags in the command line
 	csvFilename := flag.String("file", "problems.csv", "Specify the problems file")
-	limit := flag.Int("limit", 30, "Time limit for the quiz")
+	limit := flag.Int("limit", 10, "Time limit for the quiz")
 
 	//MANDATORY: parse the flags to capture the values
 	flag.Parse()
@@ -84,6 +85,11 @@ func parseLines(lines *[][]string) *[]problem {
 			a: strings.TrimSpace(line[1]),
 		}
 	}
+	
+	//shuffle the questions everytime the program runs
+	rand.Shuffle(len(ret),func(i,j int) {
+		ret[i],ret[j] = ret[j],ret[i]
+	})
 	return &ret
 }
 
